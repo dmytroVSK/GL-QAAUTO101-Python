@@ -1,0 +1,1 @@
+TEST_DB_NAME = 'become_qa_auto.db'

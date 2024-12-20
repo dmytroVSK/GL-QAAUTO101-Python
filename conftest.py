@@ -5,8 +5,8 @@ from dataclasses import dataclass
 
 @dataclass
 class TestUser:
-    owner: str = 'dmytroPPK'
-    repo: str = 'GL-QAAUTO101'
+    owner: str = "dmytroPPK"
+    repo: str = "GL-QAAUTO101"
 
 
 class User:
@@ -37,7 +37,7 @@ def user():
 @pytest.fixture
 def github_api():
     api = GitHub()
-    
+
     yield api
 
 

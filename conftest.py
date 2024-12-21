@@ -53,47 +53,17 @@ def driver(request):
         )
 
 
-@dataclass
-class TestUser:
-    owner: str = "dmytroPPK"
-    repo: str = "GL-QAAUTO101"
-
-
-class User:
-
-    def __init__(self) -> None:
-        self.name = None
-        self.second_name = None
-
-    def create(self):
-        self.name = "Dmytro"
-        self.second_name = "Prokopenko"
-
-    def remove(self):
-        self.name = ""
-        self.second_name = ""
-
-
 @pytest.fixture
-def user():
-    user = User()
-    user.create()
+def pause():
+    def _pause(seconds):
+        time.sleep(seconds)
 
-    yield user
-
-    user.remove()
+    return _pause
 
 
-@pytest.fixture
-def github_api():
-    api = GitHub()
-
-    yield api
-
-
-@pytest.fixture
-def test_user():
-    return TestUser()
+@pytest.fixture(scope="session")
+def chrome_driver_path():
+    return Path(__file__).parent / CHROME_DRIVER_PATH
 
 
 @pytest.fixture(scope="session")
@@ -127,14 +97,50 @@ def db(init_database, get_db_path):
     db.close()
 
 
-@pytest.fixture(scope="session")
-def chrome_driver_path():
-    return Path(__file__).parent / CHROME_DRIVER_PATH
+@dataclass
+class TestUser:
+    owner: str = "dmytroPPK"
+    repo: str = "GL-QAAUTO101"
 
 
 @pytest.fixture
-def pause():
-    def _pause(seconds):
-        time.sleep(seconds)
+def github_api():
+    api = GitHub()
 
-    return _pause
+    yield api
+
+
+@dataclass
+class TestUser:
+    owner: str = "dmytroPPK"
+    repo: str = "GL-QAAUTO101"
+
+
+@pytest.fixture
+def test_user():
+    return TestUser()
+
+
+class User:
+
+    def __init__(self) -> None:
+        self.name = None
+        self.second_name = None
+
+    def create(self):
+        self.name = "Dmytro"
+        self.second_name = "Prokopenko"
+
+    def remove(self):
+        self.name = ""
+        self.second_name = ""
+
+
+@pytest.fixture
+def user():
+    user = User()
+    user.create()
+
+    yield user
+
+    user.remove()

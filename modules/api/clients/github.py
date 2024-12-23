@@ -7,24 +7,20 @@ class GitHub:
         body = r.json()
 
         return body
-    
 
     def search_repo(self, name):
         r = requests.get(
-            "https://api.github.com/search/repositories",
-            params={"q": name}
+            "https://api.github.com/search/repositories", params={"q": name}
         )
         body = r.json()
 
         return body
-    
 
     def get_all_emojis(self):
-        r = requests.get('https://api.github.com/emojis')
+        r = requests.get("https://api.github.com/emojis")
         body = r.json()
 
-        return dict(code=r.status_code, body = body)
-    
+        return dict(code=r.status_code, body=body)
 
     def get_all_commits(self, owner, repo):
         r = requests.get(f"https://api.github.com/repos/{owner}/{repo}/commits")
@@ -32,9 +28,10 @@ class GitHub:
 
         return body
 
-
     def get_commit(self, owner, repo, sha_commit):
-            r = requests.get(f"https://api.github.com/repos/{owner}/{repo}/commits/{sha_commit}")
-            body = r.json()
+        r = requests.get(
+            f"https://api.github.com/repos/{owner}/{repo}/commits/{sha_commit}"
+        )
+        body = r.json()
 
-            return dict(code=r.status_code, body = body)
+        return dict(code=r.status_code, body=body)

@@ -17,7 +17,6 @@ class Database:
 
     def test_connection(self):
         sqlite_select_query = "SELECT sqlite_version();"
-        # sqlite_select_query = '''SELECT name FROM my_db.sqlite_master WHERE type='table';'''
         self.cursor.execute(sqlite_select_query)
         record = self.cursor.fetchall()
         print(f"Connected successfully. SQLite Database version is : {record[0][0]}")

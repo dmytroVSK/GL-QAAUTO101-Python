@@ -6,20 +6,17 @@ from selenium.webdriver.common.by import By
 
 @pytest.mark.skip(reason="use driver manager")
 @pytest.mark.ui
-def test_try_open_login_page(chrome_driver_path, pause):
+def test_try_open_login_page(chrome_driver_path):
     """test with manual linked binary"""
     driver = webdriver.Chrome(service=ChromeService(executable_path=chrome_driver_path))
 
     driver.get("https://github.com/login")
-
-    # pause(2)
 
     driver.close()
 
 
 @pytest.mark.ui
 def test_check_incorrect_username(driver, pause):
-
     driver.get("https://github.com/login")
 
     login_input = driver.find_element(By.ID, "login_field")
@@ -32,5 +29,3 @@ def test_check_incorrect_username(driver, pause):
     signin_button.click()
 
     assert driver.title == "Sign in to GitHub · GitHub"
-
-    # pause(2)

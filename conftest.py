@@ -55,8 +55,10 @@ def driver(request):
 
 @pytest.fixture(scope="module")
 def pause():
-    def _pause(seconds):
+    def _pause(seconds, stop=0):
         time.sleep(seconds)
+        if stop:
+            input("\nPRESS ANY KEY TO CONTINUE ...")
 
     return _pause
 
@@ -95,12 +97,6 @@ def db(init_database, get_db_path):
     db = Database(get_db_path)
     yield db
     db.close()
-
-
-@dataclass
-class TestUser:
-    owner: str = "dmytroPPK"
-    repo: str = "GL-QAAUTO101"
 
 
 @pytest.fixture

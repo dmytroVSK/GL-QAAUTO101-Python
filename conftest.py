@@ -53,7 +53,7 @@ def driver(request):
         )
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def pause():
     def _pause(seconds):
         time.sleep(seconds)

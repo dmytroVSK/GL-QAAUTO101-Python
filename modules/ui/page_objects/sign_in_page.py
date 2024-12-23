@@ -15,17 +15,17 @@ class SignInPage(BasePage):
         super().__init__(driver, url)
 
     def try_login(self, username, password):
-        login_element = self.find_element(self.LOGIN_ELEMENT)
+        login_element = self._find_element_visible(self.LOGIN_ELEMENT)
         login_element.send_keys(username)
 
-        password_element = self.find_element(self.PASSWORD_ELEMENT)
+        password_element = self._find_element_visible(self.PASSWORD_ELEMENT)
         password_element.send_keys(password)
 
-        button_element = self.find_element(self.BUTTON_ELEMENT)
+        button_element = self._find_element_visible(self.BUTTON_ELEMENT)
         button_element.click()
 
     def check_title(self, expected_title):
         return self.driver.title == expected_title
 
     def check_link_qnt_footer(self, expected_link_qnt):
-        return len(self.find_elements(self.FOOTER_LINKS)) == expected_link_qnt
+        return len(self._find_elements_visible(self.FOOTER_LINKS)) == expected_link_qnt

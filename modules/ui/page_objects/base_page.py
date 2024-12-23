@@ -1,4 +1,5 @@
 from selenium.webdriver.support.ui import WebDriverWait as Wait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class BasePage:
@@ -15,24 +16,25 @@ class BasePage:
     def close(self):
         self.driver.close()
 
-    def find_element(self, locator):
-        element = self.driver.find_element(*locator)
-        self._wait().until(
-            lambda driver: element.is_displayed() and element.is_enabled()
-        )
+    def _wait(self, timeout=TIMEOUT):
+        return Wait(self.driver, timeout)
+
+    def _find_element_visible(self, locator):
+        element = self._wait().until(EC.visibility_of_element_located(locator))
         self._scroll_to_element(element)
         return element
 
-    def find_elements(self, locator):
-        elements = self.driver.find_elements(*locator)
-        elements_are_ready = lambda elems: all(
-            elem.is_displayed and elem.is_enabled() for elem in elems
-        )
-        self._wait().until(lambda driver: elements_are_ready(elements))
+    def _find_element_dom(self, locator):
+        element = self._wait().until(EC.presence_of_element_located(locator))
+        return element
+
+    def _find_elements_visible(self, locator):
+        elements = self._wait().until(EC.visibility_of_all_elements_located(locator))
         return elements
 
-    def _wait(self, timeout=TIMEOUT):
-        return Wait(self.driver, timeout)
+    def _find_elements_dom(self, locator):
+        elements = self._wait().until(EC.presence_of_all_elements_located(locator))
+        return elements
 
     def _scroll_to_element(self, element):
         self.driver.execute_script("arguments[0].scrollIntoView();", element)

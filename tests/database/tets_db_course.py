@@ -52,3 +52,12 @@ def test_detailed_orders(db):
     assert orders[0][1] == "Sergii"
     assert orders[0][2] == "солодка вода"
     assert orders[0][3] == "з цукром"
+
+
+@pytest.mark.database
+def test_product_qnt_update(db):
+    db.update_product_qnt_by_id(1, 25)
+    water_qnt = db.select_product_qnt_by_id(1)
+
+    assert water_qnt[0][0] == 25
+

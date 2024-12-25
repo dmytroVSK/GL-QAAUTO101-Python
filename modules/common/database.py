@@ -7,7 +7,6 @@ class Database:
     def __init__(self, sqlite_db_name):
         self.connection = sqlite3.connect(sqlite_db_name)
         self.cursor = self.connection.cursor()
-        self._enable_foreign_keys()
 
     def __del__(self):
         self.close()
@@ -15,10 +14,6 @@ class Database:
     def close(self):
         if self.connection:
             self.connection.close()
-
-    def _enable_foreign_keys(self):
-        self.cursor.execute('PRAGMA foreign_keys=ON;')
-        self.connection.commit()
 
     def test_connection(self):
         sqlite_select_query = "SELECT sqlite_version();"
@@ -76,12 +71,3 @@ class Database:
         self.cursor.execute(query)
         record = self.cursor.fetchall()
         return record
-
-    def clean_orders_tbl(self):
-        self.cursor.execute("DELETE FROM orders;")
-        self.connection.commit()
-
-    def fill_orders_tbl(self, orders_list: []):
-        self.cursor.executemany("INSERT INTO orders (customer_id, product_id) VALUES (?, ?)",
-                                orders_list)
-        self.connection.commit()

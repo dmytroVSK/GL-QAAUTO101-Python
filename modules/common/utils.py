@@ -28,49 +28,59 @@ class DBHandler:
     # sql queries
 
     CREATE_PRODUCTS_TBL_SQL = """
-        CREATE TABLE IF NOT EXISTS products
-        (id integer PRIMARY KEY, name TEXT,description TEXT,quantity INTEGER);
+        CREATE TABLE IF NOT EXISTS products (
+            id integer PRIMARY KEY AUTOINCREMENT, 
+            name TEXT,
+            description TEXT,
+            quantity INTEGER DEFAULT 0
+        );
         """
     FILL_PRODUCTS_TBL_SQL = """
-        INSERT INTO products (id, name, description, quantity)
+        INSERT INTO products (name, description, quantity)
         VALUES
-        (1, 'солодка вода',	'з цукром', 10),
-        (2, 'солодка вода', 'з цукрозамінником', 15),
-        (3, 'солодка вода', 'з соком', 30),
-        (4, 'узвар', 'з цукром', 50),
-        (5, 'узвар', 'з цукрозамінником', 5);
+        ('солодка вода',	'з цукром', 10),
+        ('солодка вода', 'з цукрозамінником', 15),
+        ('солодка вода', 'з соком', 30),
+        ('узвар', 'з цукром', 50),
+        ('узвар', 'з цукрозамінником', 5);
         """
     CREATE_CUSTOMERS_TBL_SQL = """
-        CREATE TABLE IF NOT EXISTS customers 
-        (id INTEGER PRIMARY KEY, name TEXT, address TEXT, city TEXT, postalCode TEXT, country TEXT);
+        CREATE TABLE IF NOT EXISTS customers (
+            id INTEGER PRIMARY KEY AUTOINCREMENT, 
+            name TEXT, 
+            address TEXT, 
+            city TEXT, 
+            postalCode TEXT DEFAULT '0000', 
+            country TEXT DEFAULT 'Ukraine'
+        );
         """
     FILL_CUSTOMERS_TBL_SQL = """
-        INSERT INTO customers (id, name, address, city, postalCode, country) 
+        INSERT INTO customers (name, address, city, postalCode, country) 
         VALUES 
-        (1, 'Sergii', 'Maydan Nezalezhnosti 1', 'Kyiv' , '3127', 'Ukraine'),
-        (2, 'Stepan', 'Stepana Bandery str 2', 'Kyiv', '2055', 'Ukraine'),
-        (3, 'Mykola', 'Nema moskalya 10', 'Lviv', '2055', 'Ukraine'),
-        (4, 'Vasyl', 'Stepana Bandery str 10', 'Kyiv', '2055', 'Ukraine'),
-        (5, 'John', 'Stepana Bandery str 2', 'New York', '0000', 'USA');
+        ('Sergii', 'Maydan Nezalezhnosti 1', 'Kyiv' , '3127', 'Ukraine'),
+        ('Stepan', 'Stepana Bandery str 2', 'Kyiv', '2055', 'Ukraine'),
+        ('Mykola', 'Nema moskalya 10', 'Lviv', '2055', 'Ukraine'),
+        ('Vasyl', 'Stepana Bandery str 10', 'Kyiv', '2055', 'Ukraine'),
+        ('John', 'Stepana Bandery str 2', 'New York', '0000', 'USA');
         """
     CREATE_ORDERS_TBL_SQL = """
-        CREATE TABLE orders (
-            id integer PRIMARY KEY,
+        CREATE TABLE IF NOT EXISTS orders (
+            id integer PRIMARY KEY AUTOINCREMENT,
             customer_id integer,
             product_id integer,
-            order_date datetime,
+            order_date datetime DEFAULT CURRENT_DATE,
             FOREIGN KEY(customer_id) REFERENCES customers(id),
-            FOREIGN KEY(product_id) REFERENCES orders(id)
+            FOREIGN KEY(product_id) REFERENCES products(id)
         );
         """
     FILL_ORDERS_TBL_SQL = """
-        INSERT INTO orders (id, customer_id, product_id, order_date)
+        INSERT INTO orders (customer_id, product_id)
         VALUES 
-        (1, 1, 4, '12:22:23'),
-        (2, 2, 4, '12:22:23'),
-        (3, 4, 3, '12:22:23'),
-        (4, 3, 4, '12:22:23'),
-        (5, 5, 1, '12:22:23'),
-        (6, 5, 2, '12:22:23'),
-        (7, 1, 5, '12:22:23');
+        (1, 4),
+        (2, 4),
+        (4, 3),
+        (3, 4),
+        (5, 1),
+        (5, 2),
+        (1, 5);
         """
